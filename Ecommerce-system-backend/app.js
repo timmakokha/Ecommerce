@@ -3,36 +3,35 @@ const app = express();
 const bodyParser = require('body-parser');
 const morgan = require ('morgan');
 const mongoose = require('mongoose');
-const cors = require('cors');
+  
 
 require ("dotenv/config");
-app.use(cors());
-app.options('*', cors())
 const api = process.env.API_URL;
-
-const categoriesRouter = require('./routers/categories');
-const productsRouter = require('./routers/product');
-const usersRouter = require('./routers/users');
-const orderRouter = require('./routers/orders');
-
-
 
 //Middleware
 app.use(bodyParser.json());
 app.use (morgan('tiny'));
 
-//Routers
-app.use(`${api}/categories`, categoriesRouter);
-app.use(`${api}/products`, productsRouter);
-app.use(`${api}/users`, usersRouter);
-app.use(`${api}/orders`, orderRouter);
 
 
-//Database
+const productsRoutes= require('./routers/products');
+const ordersRoutes= require('./routers/orders');
+const categoriesRoutes= require('./routers/categories');
+const usersRoutes= require('./routers/users');
+
+
+
+//routes
+app.use(`${api}/products`, productsRoutes);
+app.use(`${api}/users`, usersRoutes);
+app.use(`${api}/orders`, ordersRoutes);
+app.use(`${api}/categories`, categoriesRoutes)
+
+//database
 mongoose.connect(process.env.CONNECTION_STRING, {
  useNewUrlParser: true,
  useUnifiedTopology: true,
- dbName: 'newshop'
+ dbName: 'E-shop-database'
  })
      .then(()=>{
      console.log('database connection is ready...')
@@ -40,6 +39,8 @@ mongoose.connect(process.env.CONNECTION_STRING, {
      .catch((err)=>{
          console.log(err);
      })
+
+     //server
 app.listen(3000,()=>{
     console.log('server is running http://localhost:3000');
 })

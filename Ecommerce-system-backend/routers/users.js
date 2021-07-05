@@ -1,14 +1,13 @@
-const {User} = require('../models/users');
-const express= require('express');
+  const{User}= require('..models/user');                 
+const express = require('express');
 const router = express.Router();
 
 router.get(`/`, async (req,res)=>{
-    const usersList = await User.find();
-    
-    if(!usersList) {
+    const userList = await User.find();
+
+    if (!userList){
         res.status(500).json({success: false})
     }
-        res.send(userList); 
-    })
-
+    res.send(userList);
+})
 module.exports = router;

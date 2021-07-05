@@ -1,14 +1,13 @@
-const {Order} = require('../models/orders');
-const express= require('express');
+const{Order}= require('..models/order');                      
+const express = require('express');
 const router = express.Router();
 
 router.get(`/`, async (req,res)=>{
-    const orderList = await Order.find();
-    
-    if(!orderList) {
+    const userList = await User.find();
+
+    if (!orderList){
         res.status(500).json({success: false})
     }
-        res.send(orderList); 
-    })
-
+    res.send(orderList);
+})
 module.exports = router;
